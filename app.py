@@ -132,10 +132,139 @@ def login_admin(cpf, senha):
 
     admin_docs = list(db.collection('admin').where('cpf', '==', cpf).stream())
     if not admin_docs:
-        return {'error': 'Usuário não encontrado!'}
+        return {'error': 'Admin não encontrado!'}
 
     admin_data = admin_docs[0].to_dict()
     if admin_data['senha'] != senha:
         return {'error': 'Senha incorreta!'}
     else:
         return {'message': 'Login realizado com sucesso!', 'admin_id': admin_docs[0].id}
+
+# Produto
+def create_prato(nome, url_img, valor):
+    if not nome or not valor or not url_img:
+        return {'error': 'Todos os campos devem ser preenchidos!'}
+
+    doc_ref = db.collection('prato').add({
+        'nome': nome,
+        'url_img': url_img,
+        'valor': valor
+    })
+    return {'message': 'Cadastro realizado com sucesso!', 'id': doc_ref[1].id}
+
+def delete_prato(prato_id):
+    try:
+        if not prato_id:
+            return {'error': 'ID do prato deve ser informado!'}
+
+        db.collection('prato').document(prato_id).delete()
+        return {'message': 'Prato excluído com sucesso!'}
+    except Exception as e:
+        return {'message': str(e)}
+
+def get_prato(prato_id):
+    try:
+        if not prato_id:
+            return {'error': 'ID do prato deve ser informado!'}
+
+        prato_data = db.collection('prato').document(prato_id).get()
+        if not prato_data.exists:
+            return {'error': 'Prato não encontrado!'}
+        return prato_data.to_dict()
+    except Exception as e:
+        return {'message': str(e)}
+
+def list_pratos():
+    pratos = db.collection('prato').stream()
+    prato_list = []
+    for prato in pratos:
+        prato_list.append({'id': prato.id, **prato.to_dict()})
+    return prato_list
+
+# Promoção
+def create_promocao(nome, url_img, valor):
+    if not nome or not url_img or not valor:
+        return {'error': 'Todos os campos devem ser preenchidos!'}
+
+    try:
+        doc_ref = db.collection('promocao').add({
+            'nome': nome,
+            'url_img': url_img,
+            'valor': valor
+        })
+        return {'message': 'Promoção cadastrada com sucesso!', 'id': doc_ref[1].id}
+    except Exception as e:
+        return {'message': str(e)}
+
+def delete_promocao(id):
+    try:
+        if not id:
+            return {'error': 'ID da promoção deve ser informado!'}
+
+        db.collection('promocao').document(id).delete()
+        return {'message': 'Promoção excluída com sucesso!'}
+    except Exception as e:
+        return {'message': str(e)}
+
+def get_promocao(id):
+    try:
+        if not id:
+            return {'error': 'ID da promoção deve ser informado!'}
+
+        promocao_data = db.collection('promocao').document(id).get()
+        if not promocao_data.exists:
+            return {'error': 'Promoção não encontrada!'}
+        return promocao_data.to_dict()
+    except Exception as e:
+        return {'message': str(e)}
+
+def list_promocaos():
+    promocaos = db.collection('promocao').stream()
+    promocao_list = []
+    for promocao in promocaos:
+        promocao_list.append({'id': promocao.id, **promocao.to_dict()})
+    return promocao_list
+
+# Unidade
+def create_unidade(nome, url_img, endereco):
+    if not nome or not endereco or not url_img:
+        return {'error': 'Todos os campos devem ser preenchidos!'}
+
+    try:
+        doc_ref = db.collection('unidade').add({
+            'nome': nome,
+            'url_img': url_img,
+            'endereco': endereco
+        })
+        return {'message': 'Unidade de unidadee cadastrada com sucesso!', 'id': doc_ref[1].id}
+    except Exception as e:
+        return {'message': str(e)}
+
+def delete_unidade(nome):
+    if not nome:
+        return {'error': 'Nome da unidade deve ser informado!'}
+
+    try:
+        db.collection('unidade').document(nome).delete()
+        return {'message': 'Unidade excluída com sucesso!'}
+    except Exception as e:
+        return {'message': str(e)}
+
+def get_unidade(nome):
+    if not nome:
+        return {'error': 'Nome da unidade deve ser informado!'}
+
+    try:
+        unidade_data = db.collection('unidade').document(nome).get()
+        if not unidade_data.exists:
+            return {'error': 'Unidade não encontrada!'}
+        return unidade_data.to_dict()
+    except Exception as e:
+        return {'message': str(e)}
+
+def list_unidades():
+    unidades = db.collection('unidade').stream()
+    unidade_list = []
+    for unidade in unidades:
+        unidade_list.append({'id': unidade.id, **unidade.to_dict()})
+    return unidade_list
