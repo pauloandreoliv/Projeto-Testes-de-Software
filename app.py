@@ -23,7 +23,7 @@ def create_usuario(cpf, nome, email, endereco, telefone, senha):
     if not re.match(r'^\d{10,11}$', telefone):  # 81999999999
         return {'error': 'Telefone inválido!'}
 
-    doc_ref = db.collection('usuario').create({
+    doc_ref = db.collection('usuario').add({
         'cpf': cpf,
         'nome': nome,
         'email': email,
@@ -54,6 +54,20 @@ def get_usuario(cpf):
         return {'error': 'Usuário não encontrado!'}
     return usuario_docs[0].to_dict()
 
+def login_usuario(cpf, senha):
+    if not re.match(r'^\d{11}$', cpf):
+        return {'error': 'CPF inválido!'} # 99999999999
+
+    usuario_docs = list(db.collection('usuario').where('cpf', '==', cpf).stream())
+    if not usuario_docs:
+        return {'error': 'Usuário não encontrado!'}
+
+    usuario_data = usuario_docs[0].to_dict()
+    if usuario_data['senha'] != senha:
+        return {'error': 'Senha incorreta!'}
+    else:
+        return {'message': 'Login realizado com sucesso!', 'usuario_id': usuario_docs[0].id}
+
 #Pedido
 def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total):
     if not re.match(r'^\d{11}$', cpf):
@@ -67,7 +81,7 @@ def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total):
     offset = timedelta(hours=-3)
     formatted_date = (now + offset).strftime("%d de %B de %Y às %H:%M:%S") + " UTC-3"
 
-    doc_ref = db.collection('pedido').create({
+    doc_ref = db.collection('pedido').add({
         'cpf': cpf,
         'data': formatted_date,
         'endereco': endereco,
@@ -96,7 +110,7 @@ def cadastrar_admin(cpf, senha):
     if list(admin_query):
         return {'error': 'CPF já cadastrado como administrador!'}
 
-    doc_ref = db.collection('admin').create({
+    doc_ref = db.collection('admin').add({
         'cpf': cpf,
         'senha': senha
     })
@@ -110,3 +124,18 @@ def get_admin(cpf):
     if not admin_docs:
         return {'error': 'Administrador não encontrado!'}
     return admin_docs[0].to_dict()
+
+
+def login_admin(cpf, senha):
+    if not re.match(r'^\d{11}$', cpf):
+        return {'error': 'CPF inválido!'} # 99999999999
+
+    admin_docs = list(db.collection('admin').where('cpf', '==', cpf).stream())
+    if not admin_docs:
+        return {'error': 'Usuário não encontrado!'}
+
+    admin_data = admin_docs[0].to_dict()
+    if admin_data['senha'] != senha:
+        return {'error': 'Senha incorreta!'}
+    else:
+        return {'message': 'Login realizado com sucesso!', 'admin_id': admin_docs[0].id}
