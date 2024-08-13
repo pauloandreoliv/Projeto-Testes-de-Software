@@ -10,7 +10,7 @@ db = firestore.client()
 # Usuário
 def create_usuario(cpf, nome, email, endereco, telefone, senha):
     if not re.match(r'^\d{11}$', cpf):
-        return {'error': 'CPF inválido!'} # 99999999999
+        return {'error': 'CPF inválido!'}
     
     usuario_query = db.collection('usuario').where('cpf', '==', cpf).stream()
     if list(usuario_query):
@@ -20,7 +20,7 @@ def create_usuario(cpf, nome, email, endereco, telefone, senha):
         return {'error': 'Todos os campos devem ser preenchidos!'}
     if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w{2,4}$', email):
         return {'error': 'E-mail inválido!'}
-    if not re.match(r'^\d{10,11}$', telefone):  # 81999999999
+    if not re.match(r'^\d{10,11}$', telefone):
         return {'error': 'Telefone inválido!'}
 
     doc_ref = db.collection('usuario').add({
@@ -56,7 +56,7 @@ def get_usuario(cpf):
 
 def login_usuario(cpf, senha):
     if not re.match(r'^\d{11}$', cpf):
-        return {'error': 'CPF inválido!'} # 99999999999
+        return {'error': 'CPF inválido!'} # CPF deve conter 11 dígitos numéricos
 
     usuario_docs = list(db.collection('usuario').where('cpf', '==', cpf).stream())
     if not usuario_docs:
@@ -127,7 +127,7 @@ def get_admin(cpf):
 
 def login_admin(cpf, senha):
     if not re.match(r'^\d{11}$', cpf):
-        return {'error': 'CPF inválido!'} # 99999999999
+        return {'error': 'CPF inválido!'} # CPF deve conter 11 dígitos numéricos
 
     admin_docs = list(db.collection('admin').where('cpf', '==', cpf).stream())
     if not admin_docs:
@@ -143,7 +143,9 @@ def login_admin(cpf, senha):
 def create_prato(nome, url_img, valor):
     if not nome or not valor or not url_img:
         return {'error': 'Todos os campos devem ser preenchidos!'}
-
+    if float(valor) < 0:
+        return {'error': 'Valor deve ser maior que zero!'}
+    
     doc_ref = db.collection('prato').add({
         'nome': nome,
         'url_img': url_img,
@@ -182,13 +184,16 @@ def list_pratos():
     prato_list = []
     for prato in pratos:
         prato_list.append({'id': prato.id, **prato.to_dict()})
+    if not prato_list:
+        return {'error': 'Nenhum prato encontrado!'}
     return prato_list
 
 # Promoção
 def create_promocao(nome, url_img, valor):
     if not nome or not url_img or not valor:
         return {'error': 'Todos os campos devem ser preenchidos!'}
-
+    if float(valor) < 0:
+        return {'error': 'Valor deve ser maior que zero!'}
     try:
         doc_ref = db.collection('promocao').add({
             'nome': nome,
@@ -230,6 +235,8 @@ def list_promocoes():
     promocao_list = []
     for promocao in promocoes:
         promocao_list.append({'id': promocao.id, **promocao.to_dict()})
+    if not promocao_list:
+        return {'error': 'Nenhuma promoção encontrada!'}
     return promocao_list
 
 # Unidade
@@ -278,4 +285,6 @@ def list_unidades():
     unidade_list = []
     for unidade in unidades:
         unidade_list.append({'id': unidade.id, **unidade.to_dict()})
+    if not unidade_list:
+        return {'error': 'Nenhuma unidade encontrada!'}
     return unidade_list
