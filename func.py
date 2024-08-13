@@ -1,7 +1,7 @@
 from app import *
 
 # Validando create de usuário
-resultado = create_usuario("99999999999", "João Silva", "joao@exemplo.com", "Rua A, 123", "81999999999", "senha123")
+resultado = create_usuario("88999999999", "João Silva", "joao@exemplo.com", "Rua A, 123", "81999999999", "senha123")
 print(resultado)  # {'message': 'Cadastro realizado com sucesso!', 'id': 'ID'}
 
 # Validando update de usuário
@@ -59,7 +59,7 @@ resultado = delete_promocao(promocao_id)
 print(resultado)  # {'message': 'Promoção excluída com sucesso!'}
 
 # Validando list de promoções
-resultado = list_promocaos()
+resultado = list_promocoes()
 print(resultado)  # Lista de dicionários com as promoções e seus IDs
 
 # Validando create de unidade de restaurante
