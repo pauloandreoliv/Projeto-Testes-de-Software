@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-cred = credentials.Certificate('key.json')
+cred = credentials.Certificate('key.json') # Necessário gerar nova devido a restrições do Firebase
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
@@ -125,7 +125,6 @@ def get_admin(cpf):
         return {'error': 'Administrador não encontrado!'}
     return admin_docs[0].to_dict()
 
-
 def login_admin(cpf, senha):
     if not re.match(r'^\d{11}$', cpf):
         return {'error': 'CPF inválido!'} # 99999999999
@@ -156,9 +155,13 @@ def delete_prato(prato_id):
     try:
         if not prato_id:
             return {'error': 'ID do prato deve ser informado!'}
-
-        db.collection('prato').document(prato_id).delete()
-        return {'message': 'Prato excluído com sucesso!'}
+        
+        prato_data = db.collection('prato').document(prato_id).get()
+        if not prato_data.exists:
+            return {'error': 'Prato não encontrado!'}
+        else:
+            db.collection('prato').document(prato_id).delete()
+            return {'message': 'Prato excluído com sucesso!'}
     except Exception as e:
         return {'message': str(e)}
 
@@ -200,9 +203,13 @@ def delete_promocao(id):
     try:
         if not id:
             return {'error': 'ID da promoção deve ser informado!'}
-
-        db.collection('promocao').document(id).delete()
-        return {'message': 'Promoção excluída com sucesso!'}
+        
+        promocao_data = db.collection('promocao').document(id).get()
+        if not promocao_data.exists:
+            return {'error': 'Promoção não encontrada!'}
+        else:
+            db.collection('promocao').document(id).delete()
+            return {'message': 'Promoção excluída com sucesso!'}
     except Exception as e:
         return {'message': str(e)}
 
@@ -210,7 +217,7 @@ def get_promocao(id):
     try:
         if not id:
             return {'error': 'ID da promoção deve ser informado!'}
-
+        
         promocao_data = db.collection('promocao').document(id).get()
         if not promocao_data.exists:
             return {'error': 'Promoção não encontrada!'}
@@ -218,10 +225,10 @@ def get_promocao(id):
     except Exception as e:
         return {'message': str(e)}
 
-def list_promocaos():
-    promocaos = db.collection('promocao').stream()
+def list_promocoes():
+    promocoes = db.collection('promocao').stream()
     promocao_list = []
-    for promocao in promocaos:
+    for promocao in promocoes:
         promocao_list.append({'id': promocao.id, **promocao.to_dict()})
     return promocao_list
 
@@ -241,12 +248,16 @@ def create_unidade(nome, url_img, endereco):
         return {'message': str(e)}
 
 def delete_unidade(nome):
-    if not nome:
-        return {'error': 'Nome da unidade deve ser informado!'}
-
     try:
-        db.collection('unidade').document(nome).delete()
-        return {'message': 'Unidade excluída com sucesso!'}
+        if not nome:
+            return {'error': 'Nome da unidade deve ser informado!'}
+    
+        unidade_data = db.collection('unidade').document(nome).get()
+        if not unidade_data.exists:
+            return {'error': 'Unidade não encontrada!'}
+        else:
+            db.collection('unidade').document(nome).delete()
+            return {'message': 'Unidade excluída com sucesso!'}
     except Exception as e:
         return {'message': str(e)}
 
