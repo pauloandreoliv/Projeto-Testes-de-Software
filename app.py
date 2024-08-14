@@ -66,7 +66,7 @@ def login_usuario(cpf, senha):
     if usuario_data['senha'] != senha:
         return {'error': 'Senha incorreta!'}
     else:
-        return {'message': 'Login realizado com sucesso!', 'usuario_id': usuario_docs[0].id}
+        return {'message': 'Login realizado com sucesso!', 'usuario_id': usuario_docs[0].id, 'usuario_cpf': usuario_data['cpf']}
 
 #Pedido
 def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total):
@@ -95,11 +95,13 @@ def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total):
 def get_pedido(cpf):
     if not re.match(r'^\d{11}$', cpf):
         return {'error': 'CPF inválido!'}
-
+    
     pedido_docs = list(db.collection('pedido').where('cpf', '==', cpf).stream())
     if not pedido_docs:
-        return {'error': 'Pedido não encontrado!'}
-    return pedido_docs[0].to_dict()
+        return {'error': 'Nenhum pedido encontrado para este CPF!'}
+    
+    pedidos = [doc.to_dict() for doc in pedido_docs]
+    return pedidos
 
 # Admin
 def cadastrar_admin(cpf, senha):
