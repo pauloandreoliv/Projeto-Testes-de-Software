@@ -261,13 +261,13 @@ def calcular_media_avaliacoes(permissao):
         return {'error':  str(e)}
 
 # Admin
-def cadastrar_funcionario(cpf, senha, permissao):
+def cadastrar_funcionario(cpf, senha, permissao, permissao_registrador):
     try:
         cpf_valido = validar_cpf(cpf)
         if cpf_valido == False:
             return {'error': 'CPF inválido!'}
         
-        if permissao.upper().strip() not in ['GERENTE']:
+        if permissao_registrador.upper().strip() not in ['GERENTE']:
             return {'error': 'Nível de permissão inválido!'}
         
         funcionario_query = db.collection('funcionario').where('cpf', '==', cpf).stream()

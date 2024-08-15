@@ -38,7 +38,7 @@ resultado = get_pedido("88999999999")
 print(resultado)  
 
 # Validando create funcionario
-resultado = cadastrar_funcionario("99999999999", "senhafuncionario", 'GERENTE')
+resultado = cadastrar_funcionario("12999999999", "senhafuncionario", 'ATENDENTE', 'GERENTE')
 print(resultado) 
 
 # Validando get de funcionario
