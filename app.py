@@ -218,7 +218,11 @@ def list_pedidos(permissao):
         return {'error':  str(e)}
 
 # Avaliação
-def avaliar_pedido(pedido_id, nota):
+def avaliar_pedido(cpf, pedido_id, nota):
+    cpf_valido = validar_cpf(cpf)
+    if cpf_valido == False:
+            return {'error': 'CPF inválido!'}
+    
     if not pedido_id:
         return {'error': 'ID do pedido deve ser informado!'}
     
@@ -226,6 +230,10 @@ def avaliar_pedido(pedido_id, nota):
         pedido_data = db.collection('pedido').document(pedido_id).get()
         if not pedido_data.exists:
             return {'error': 'Pedido não encontrado!'}
+        
+        pedido = pedido_data.to_dict()
+        if pedido.get('cpf') != cpf:
+            return {'error': 'CPF não corresponde ao CPF do pedido!'}
     except Exception as e:
         return {'error':  str(e)}
     
