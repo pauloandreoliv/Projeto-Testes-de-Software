@@ -101,6 +101,10 @@ def update_usuario(cpf, update_data):
         cpf_valido = validar_cpf(cpf)
         if cpf_valido == False:
             return {'error': 'CPF inválido!'}
+        if 'email' in update_data.keys() and not re.match(r'^[\w\.-]+@[\w\.-]+\.\w{2,4}$', update_data['email']):
+            return {'error': 'E-mail inválido!'}
+        if 'telefone' in update_data.keys() and not re.match(r'^\d{10,11}$', update_data['telefone']):
+            return {'error': 'Telefone inválido!'}
         
         usuario_docs = list(db.collection('usuario').where('cpf', '==', cpf).stream())
         if not usuario_docs:
@@ -164,8 +168,12 @@ def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total):
 
         now = datetime.now(timezone.utc)
         offset = timedelta(hours=-3)
-        formatted_date = (now + offset).strftime("%d de %B de %Y às %H:%M:%S") + " UTC-3"
+        current_time = now + offset
+        formatted_date = (current_time).strftime("%d de %B de %Y às %H:%M:%S")
 
+        if current_time.hour < 8 or current_time.hour >= 22:
+            return {'error': 'Fora do horário de funcionamento (Todos os dias das 8h às 22h)!'}
+        
         doc_ref = db.collection('pedido').add({
             'cpf': cpf,
             'data': formatted_date,
