@@ -283,6 +283,12 @@ def cadastrar_funcionario(cpf, senha, permissao, permissao_registrador):
         if cpf_valido == False:
             return {'error': 'CPF inválido!'}
         
+        if permissao.upper().strip() not in ['ATENDENTE', 'GERENTE']:
+            return {'error': 'Novo nível de permissão é inválido!'}
+        
+        if senha is None or senha == '':
+            return {'error': 'Senha inválida!'}
+        
         if permissao_registrador.upper().strip() not in ['GERENTE']:
             return {'error': 'Nível de permissão inválido!'}
         
