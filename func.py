@@ -17,7 +17,7 @@ resultado = login_usuario('88999999999', 'senha123')
 print(resultado)
 
 # Validando create de pedido
-resultado = create_pedido("88999999999", "Rua B, 456", "Cartão", 'Prato1, Prato2', "81999999999", 59.90)
+resultado = create_pedido("88999999999", "Rua B, 456", "Cartão", 'Prato1, Prato2', "81999999999", 59.90, datetime.now(timezone.utc))
 id_pedido = resultado['id']
 print(resultado) 
 

@@ -151,7 +151,7 @@ def login_usuario(cpf, senha):
         return {'error':  str(e)}
 
 # Pedido
-def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total):
+def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total, now):
     try:
         cpf_valido = validar_cpf(cpf)
         if cpf_valido == False:
@@ -166,7 +166,6 @@ def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total):
         if not re.match(r'^\d{10,11}$', telefone_cliente):
             return {'error': 'Telefone do cliente inválido!'}
 
-        now = datetime.now(timezone.utc)
         offset = timedelta(hours=-3)
         current_time = now + offset
         formatted_date = (current_time).strftime("%d de %B de %Y às %H:%M:%S")

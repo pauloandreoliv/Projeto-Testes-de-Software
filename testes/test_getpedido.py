@@ -40,7 +40,9 @@ def test_get_pedido_erro_inesperado():
     cpf = "12345678909"
     
     with patch('app.validar_cpf', return_value=True):
-        with patch('app.get_pedido', side_effect=Exception("Erro de conexão")):
+        with patch('app.db.collection') as mock_db:
+            mock_db.side_effect = Exception("Erro de conexão")
+            
             resultado = get_pedido(cpf)
             assert resultado == {"error": "Erro de conexão"}
 
