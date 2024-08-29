@@ -1,6 +1,9 @@
 import pytest
 from unittest.mock import patch, MagicMock
 from app import create_promocao
+import warnings 
+warnings.filterwarnings('ignore') #Ignorar warning do firebase
+
 
 @pytest.mark.parametrize("prato_id, promocao, permissao, prato_exists, expected", [
     ("1234", True, "GERENTE", True, 

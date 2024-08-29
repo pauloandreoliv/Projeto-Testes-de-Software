@@ -2,6 +2,9 @@ import pytest
 from google.cloud import firestore
 from datetime import datetime, timezone, timedelta
 from app import create_pedido, db
+import warnings 
+warnings.filterwarnings('ignore') #Ignorar warning do firebase
+
 
 @pytest.mark.parametrize("cpf, endereco, formadepgmto, pratos, telefone_cliente, total, now, expected", [
     ("88999999999", "Rua B, 456", "Cartão", ["Prato1", "Prato2"], "81999999999", 59.9, datetime.now(timezone.utc).replace(hour=13, minute=0, second=0, microsecond=0), 

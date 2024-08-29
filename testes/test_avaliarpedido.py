@@ -1,6 +1,9 @@
 import pytest
 from unittest.mock import patch, MagicMock
 from app import avaliar_pedido
+import warnings 
+warnings.filterwarnings('ignore') #Ignorar warning do firebase
+
 
 @pytest.mark.parametrize("cpf, pedido_id, nota, mock_pedido_data, expected", [
     ("12345678909", "pedido123", 8.5, 

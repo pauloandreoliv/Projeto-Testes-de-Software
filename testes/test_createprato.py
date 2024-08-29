@@ -1,6 +1,9 @@
 import pytest
 from unittest.mock import patch, MagicMock
 from app import create_prato
+import warnings 
+warnings.filterwarnings('ignore') #Ignorar warning do firebase
+
 
 @pytest.mark.parametrize("nome, url_img, valor, permissao, expected", [
     ("Prato A", "img_url", 25.50, "GERENTE", 

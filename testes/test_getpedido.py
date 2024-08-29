@@ -1,5 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
+import warnings 
+warnings.filterwarnings('ignore') #Ignorar warning do firebase
 
 from app import get_pedido, validar_cpf, db
 

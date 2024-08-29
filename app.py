@@ -1,10 +1,12 @@
 import re
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 import firebase_admin
 from firebase_admin import credentials, firestore
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import warnings 
+warnings.filterwarnings('ignore') #Ignorar warning do firebase
 
 cred = credentials.Certificate('key.json') # Necessário gerar nova devido a restrições do Firebase
 firebase_admin.initialize_app(cred)

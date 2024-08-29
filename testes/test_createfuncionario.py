@@ -1,6 +1,9 @@
 import pytest
 from unittest.mock import patch, MagicMock
 from app import cadastrar_funcionario
+import warnings 
+warnings.filterwarnings('ignore') #Ignorar warning do firebase
+
 
 @pytest.mark.parametrize("cpf, senha, permissao, permissao_registrador, mock_funcionario_query, expected", [
     ("12345678909", "12345", "ATENDENTE", "GERENTE", 
