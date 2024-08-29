@@ -1,0 +1,9 @@
+pytest
+unittest
+pytest-cov
+firebase_admin
+re
+smtplib
+email.mime.multipart
+email.mime.text
+warnings

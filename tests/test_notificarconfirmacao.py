@@ -3,6 +3,8 @@ import re
 from unittest.mock import patch, MagicMock
 from app import notificar_confirmacao
 import smtplib
+import warnings 
+warnings.filterwarnings('ignore') #Ignorar warning do firebase
 
 @pytest.mark.parametrize("email_cliente, pedido_id, permissao, mock_pedido_exists, mock_email_success, expected", [
     ("cliente@email.com", "123", "ATENDENTE", True, True, {'message': 'Notificação de pedido confirmado enviada via e-mail!'}),

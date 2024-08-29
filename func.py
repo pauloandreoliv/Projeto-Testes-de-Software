@@ -1,4 +1,5 @@
 from app import *
+from datetime import datetime, timezone
 
 # Validando create de usuário
 resultado = create_usuario("88999999999", "João Silva", "joao@exemplo.com", "Rua A, 123", "81999999999", "senha123")
