@@ -11,7 +11,7 @@ warnings.filterwarnings('ignore') #Ignorar warning do firebase
     ("cliente@email.com", "123", "COZINHEIRO", True, True, {'error': 'Nível de permissão inválido!'}),
     ("clienteemail.com", "123", "GERENTE", True, True, {'error': 'E-mail inválido!'}),
     ("cliente@email.com", "999", "GERENTE", False, True, {'error': 'Pedido não encontrado!'}),
-    ("cliente@email.com", "123", "GERENTE", True, False, {'error': 'Falha ao enviar o e-mail: [detalhes da exceção]'}),
+    ("cliente@email.com", "123", "GERENTE", True, False, {'error': 'Erro Inesperado'}),
 ])
 @patch('app.db.collection')
 @patch('smtplib.SMTP')

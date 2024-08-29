@@ -43,10 +43,10 @@ def test_get_pedido_erro_inesperado():
     
     with patch('app.validar_cpf', return_value=True):
         with patch('app.db.collection') as mock_db:
-            mock_db.side_effect = Exception("Erro de conexão")
+            mock_db.side_effect = Exception("Erro Inesperado")
             
             resultado = get_pedido(cpf)
-            assert resultado == {"error": "Erro de conexão"}
+            assert resultado == {"error": "Erro Inesperado"}
 
 if __name__ == "__main__":
     pytest.main()

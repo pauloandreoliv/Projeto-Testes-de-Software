@@ -18,7 +18,7 @@ def mock_validar_cpf(cpf):
 
     ("98765432100", "GERENTE", [], {'error': 'funcionário não encontrado!'}),
 
-    ("12345678909", "GERENTE", Exception("Erro inesperado"), {'error': 'Erro inesperado'}),
+    ("12345678909", "GERENTE", Exception("Erro Inesperado"), {'error': 'Erro Inesperado'}),
 ])
 @patch("app.validar_cpf", side_effect=mock_validar_cpf)
 @patch("app.db.collection")

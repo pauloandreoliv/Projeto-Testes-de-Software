@@ -13,7 +13,7 @@ from app import get_promocao
 
     ("1234", MagicMock(exists=False), {'error': 'Promoção não encontrada!'}),
 
-    ("1234", Exception("Erro inesperado"), {'error': 'Erro inesperado'}),
+    ("1234", Exception("Erro Inesperado"), {'error': 'Erro Inesperado'}),
 ])
 @patch("app.db.collection")
 def test_get_promocao(mock_db_collection, prato_id, mock_return, expected):

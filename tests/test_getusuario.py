@@ -45,10 +45,10 @@ def test_get_usuario_erro_inesperado():
     cpf = "12345678909"
     
     with patch('app.db.collection') as mock_db:
-        mock_db.side_effect = Exception("Erro de conexão com o banco de dados")
+        mock_db.side_effect = Exception("Erro Inesperado")
         
         resultado = get_usuario(cpf)
-        assert resultado == {"error": "Erro de conexão com o banco de dados"}
+        assert resultado == {"error": "Erro Inesperado"}
 
 if __name__ == "__main__":
     pytest.main()

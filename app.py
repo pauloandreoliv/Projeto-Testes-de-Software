@@ -66,7 +66,7 @@ def notificar_confirmacao(email_cliente, pedido_id, permissao):
 
         return {'message': 'Notificação de pedido confirmado enviada via e-mail!'}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 # Usuário
 def create_usuario(cpf, nome, email, endereco, telefone, senha):
@@ -96,7 +96,7 @@ def create_usuario(cpf, nome, email, endereco, telefone, senha):
         })
         return {'message': 'Cadastro realizado com sucesso!', 'id': doc_ref[1].id}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 def update_usuario(cpf, update_data):
     try:
@@ -116,7 +116,7 @@ def update_usuario(cpf, update_data):
         usuario_ref.update(update_data)
         return {'message': 'Usuário atualizado com sucesso!'}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 def get_usuario(cpf):
     try:
@@ -129,7 +129,7 @@ def get_usuario(cpf):
             return {'error': 'Usuário não encontrado!'}
         return usuario_docs[0].to_dict()
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 def login_usuario(cpf, senha):
     try:
@@ -150,7 +150,7 @@ def login_usuario(cpf, senha):
         else:
             return {'message': 'Login realizado com sucesso!', 'usuario_id': usuario_docs[0].id, 'usuario_cpf': usuario_data['cpf']}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 # Pedido
 def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total, now):
@@ -186,7 +186,7 @@ def create_pedido(cpf, endereco, formadepgmto, pratos, telefone_cliente, total, 
         })
         return {'message': 'Pedido criado com sucesso!', 'id': doc_ref[1].id}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 def get_pedido(cpf):
     try:
@@ -201,7 +201,7 @@ def get_pedido(cpf):
         pedidos = [doc.to_dict() for doc in pedido_docs]
         return pedidos
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 def list_pedidos(permissao):
     try:
@@ -216,7 +216,7 @@ def list_pedidos(permissao):
             return {'error': 'Nenhum pedido encontrado!'}
         return pedido_list
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 # Avaliação
 def avaliar_pedido(cpf, pedido_id, nota):
@@ -236,7 +236,7 @@ def avaliar_pedido(cpf, pedido_id, nota):
         if pedido.get('cpf') != cpf:
             return {'error': 'CPF não corresponde ao CPF do pedido!'}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
     
     try:
         nota = float(nota)
@@ -252,7 +252,7 @@ def avaliar_pedido(cpf, pedido_id, nota):
         })
         return {'message': 'Avaliação registrada com sucesso!', 'id': doc_ref[1].id}
     except Exception as e:
-        return {'error': str(e)}
+        return {'error': 'Erro Inesperado'}
 
 def calcular_media_avaliacoes(permissao):
     try:
@@ -275,7 +275,7 @@ def calcular_media_avaliacoes(permissao):
 
         return {'message': media_avaliacoes}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 # Admin
 def cadastrar_funcionario(cpf, senha, permissao, permissao_registrador):
@@ -304,7 +304,7 @@ def cadastrar_funcionario(cpf, senha, permissao, permissao_registrador):
         })
         return {'message': 'Cadastro realizado com sucesso!', 'id': doc_ref[1].id, 'permissao': permissao}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 def get_funcionario(cpf, permissao):
     try:
@@ -320,7 +320,7 @@ def get_funcionario(cpf, permissao):
             return {'error': 'funcionário não encontrado!'}
         return funcionario_docs[0].to_dict()
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 def login_funcionario(cpf, senha):
     try:
@@ -341,7 +341,7 @@ def login_funcionario(cpf, senha):
         else:
             return {'message': 'Login realizado com sucesso!', 'funcionario_id': funcionario_docs[0].id, 'permissao': funcionario_data['permissao']}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 # Prato
 def create_prato(nome, url_img, valor, permissao):
@@ -362,7 +362,7 @@ def create_prato(nome, url_img, valor, permissao):
         })
         return {'message': 'Cadastro realizado com sucesso!', 'id': doc_ref[1].id}
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 def delete_prato(prato_id, permissao):
     try:
@@ -379,7 +379,7 @@ def delete_prato(prato_id, permissao):
             db.collection('prato').document(prato_id).delete()
             return {'message': 'Prato excluído com sucesso!'}
     except Exception as e:
-        return {'error': str(e)}
+        return {'error': 'Erro Inesperado'}
 
 def get_prato(prato_id):
     try:
@@ -391,7 +391,7 @@ def get_prato(prato_id):
             return {'error': 'Prato não encontrado!'}
         return prato_data.to_dict()
     except Exception as e:
-        return {'error': str(e)}
+        return {'error': 'Erro Inesperado'}
 
 def list_pratos():
     try:
@@ -403,7 +403,7 @@ def list_pratos():
             return {'error': 'Nenhum prato encontrado!'}
         return prato_list
     except Exception as e:
-        return {'error':  str(e)}
+        return {'error':  'Erro Inesperado'}
 
 # Promoção
 def create_promocao(prato_id, promocao, permissao):
@@ -424,7 +424,7 @@ def create_promocao(prato_id, promocao, permissao):
         db.collection('prato').document(prato_id).update({'promocao': promocao})
         return {'message': 'Promoção do prato atualizada com sucesso!'}
     except Exception as e:
-        return {'error': str(e)}
+        return {'error': 'Erro Inesperado'}
 
 def get_promocao(prato_id):
     try:
@@ -436,7 +436,7 @@ def get_promocao(prato_id):
             return {'error': 'Promoção não encontrada!'}
         return prato_data.to_dict()
     except Exception as e:
-        return {'error': str(e)}
+        return {'error': 'Erro Inesperado'}
 
 def list_promocoes():
     try:
@@ -447,4 +447,4 @@ def list_promocoes():
             return {'error': 'Nenhum prato em promoção encontrado!'}
         return prato_list
     except Exception as e:
-        return {'error': str(e)}
+        return {'error': 'Erro Inesperado'}
