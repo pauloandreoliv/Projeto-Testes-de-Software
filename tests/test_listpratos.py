@@ -24,6 +24,12 @@ def test_list_pratos_bd():
     resultado = list_pratos()
     assert resultado == {'error': 'Nenhum prato encontrado!'}
 
+@patch('app.db.collection')
+def test_list_pratos_excecao(mock_db_collection):
+    mock_db_collection.side_effect = Exception("Erro inesperado!")
+    resultado = list_pratos()
+    assert resultado == {'error': 'Erro Inesperado'}
+
 if __name__ == "__main__":
     import pytest
     pytest.main()

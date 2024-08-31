@@ -25,5 +25,11 @@ def test_login_funcionario(mock_db_collection, cpf, senha, mock_funcionarios, ex
         mock_db_collection.assert_called_once_with('funcionario')
         mock_db_collection.return_value.where.assert_called_once_with('cpf', '==', cpf)
 
+@patch('app.db.collection')
+def test_login_funcionario_excecao(mock_db_collection):
+    mock_db_collection.side_effect = Exception("Erro inesperado!")
+    resultado = login_funcionario("12345678909", "12345")
+    assert resultado == {'error': 'Erro Inesperado'}
+
 if __name__ == "__main__":
     pytest.main()

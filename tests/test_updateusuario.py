@@ -31,5 +31,11 @@ def test_update_usuario(mock_validar_cpf, mock_db_collection, cpf, update_data, 
         mock_collection.document.assert_called_once_with(mock_usuario_docs[0].id)
         mock_doc.update.assert_called_once_with(update_data)
 
+@patch('app.db.collection')
+def test_update_usuario_excecao(mock_db_collection):
+    mock_db_collection.side_effect = Exception("Erro inesperado!")
+    resultado = update_usuario("12345678909", {'email': 'novoemail@email.com'})
+    assert resultado == {'error': 'Erro Inesperado'}
+
 if __name__ == "__main__":
     pytest.main()

@@ -1,9 +1,9 @@
 import pytest
 from unittest.mock import patch, MagicMock
-import warnings 
-warnings.filterwarnings('ignore') #Ignorar warning do firebase
+import warnings
+warnings.filterwarnings('ignore')  # Ignorar warnings do Firebase
 
-from app import get_pedido, validar_cpf, db
+from app import get_pedido, db
 
 def test_get_pedido_valido_com_pedidos():
     cpf = "12345678909"
@@ -11,17 +11,14 @@ def test_get_pedido_valido_com_pedidos():
         {'cpf': cpf, 'endereco': "Rua A", 'formadepgmto': "Cartão", 'pratos': ["Prato2", "Prato3"], 'telefone_cliente': "9999999999", 'total': 50.00, 'data': "15 de August de 2024 às 13:19:22 UTC-3"},
     ]
 
-    pedidos_collection = db.collection('pedido')
-    for pedido in pedidos_esperados:
-        pedidos_collection.add(pedido)
-
     with patch('app.validar_cpf', return_value=True):
-        resultado = get_pedido(cpf)
-        assert resultado == pedidos_esperados
+        with patch('app.db.collection') as mock_db:
+            mock_pedidos = MagicMock()
+            mock_pedidos.where.return_value.stream.return_value = [MagicMock(to_dict=MagicMock(return_value=pedido)) for pedido in pedidos_esperados]
+            mock_db.return_value = mock_pedidos
 
-    docs = pedidos_collection.where('cpf', '==', cpf).stream()
-    for doc in docs:
-        doc.reference.delete()
+            resultado = get_pedido(cpf)
+            assert resultado == pedidos_esperados
 
 def test_get_pedido_invalido():
     cpf = "00000000000"
@@ -34,7 +31,11 @@ def test_get_pedido_valido_sem_pedidos():
     cpf = "98765432100"
     
     with patch('app.validar_cpf', return_value=True):
-        with patch('app.get_pedido', return_value=[]):
+        with patch('app.db.collection') as mock_db:
+            mock_pedidos = MagicMock()
+            mock_pedidos.where.return_value.stream.return_value = []
+            mock_db.return_value = mock_pedidos
+
             resultado = get_pedido(cpf)
             assert resultado == {"error": "Nenhum pedido encontrado para este CPF!"}
 
