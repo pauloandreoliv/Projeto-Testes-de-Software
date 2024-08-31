@@ -11,6 +11,9 @@ warnings.filterwarnings('ignore')  # Ignorar warning do firebase
     ("Prato A", "img_url", 25.50, "ATENDENTE", 
      None, {'error': 'Nível de permissão inválido!'}),
 
+    ("Prato A", "", 25.50, "GERENTE", 
+     None, {'error': 'Todos os campos devem ser preenchidos!'}),
+
     ("Prato A", "img_url", -10, "GERENTE", 
      None, {'error': 'Valor deve ser maior que zero!'}),
 

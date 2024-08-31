@@ -8,6 +8,12 @@ warnings.filterwarnings('ignore')  # Ignorar warning do firebase
     ("1234", True, "GERENTE", True, None, 
      {'message': 'Promoção do prato atualizada com sucesso!'}),
 
+    (None, True, "GERENTE", False, None, 
+     {'error': 'ID do prato deve ser informado!'}),
+
+    ("1234", None, "GERENTE", False, None, 
+     {'error': 'O valor de promoção deve ser True ou False!'}),
+
     ("1234", True, "ATENDENTE", True, None, 
      {'error': 'Nível de permissão inválido!'}),
 

@@ -2,13 +2,16 @@ import pytest
 from unittest.mock import patch, MagicMock
 from app import update_usuario
 import warnings 
-warnings.filterwarnings('ignore') #Ignorar warning do firebase
-
+warnings.filterwarnings('ignore')  # Ignorar warnings do Firebase
 
 @pytest.mark.parametrize("cpf, update_data, mock_validar_cpf_result, mock_usuario_docs, expected", [
     ("12345678909", {'email': 'novoemail@email.com', 'telefone': '9999999999'}, True, [MagicMock(id='usuario_id')], {'message': 'Usuário atualizado com sucesso!'}),
     
     ("00000000000", {'email': 'novoemail@email.com'}, False, None, {'error': 'CPF inválido!'}),
+
+    ("12345678909", {'email': 'emailinvalido'}, True, [MagicMock(id='usuario_id')], {'error': 'E-mail inválido!'}),
+
+    ("12345678909", {'telefone': '9999'}, True, [MagicMock(id='usuario_id')], {'error': 'Telefone inválido!'}),  # CPF válido para testar telefone
     
     ("11111111111", {'email': 'novoemail@email.com'}, True, [], {'error': 'Usuário não encontrado!'}),
 ])

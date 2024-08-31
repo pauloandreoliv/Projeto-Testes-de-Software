@@ -15,10 +15,14 @@ warnings.filterwarnings('ignore')  # Ignorar warning do firebase
      None,
      {'error': 'CPF inválido!'}),
 
+    ("12345678909", None, 8.5, MagicMock(exists=True, to_dict=MagicMock(return_value={'cpf': '12345678909'})), 
+     None,
+     {'error': 'ID do pedido deve ser informado!'}),
+
     ("12345678909", "pedido123", 11, 
      MagicMock(exists=True, to_dict=MagicMock(return_value={'cpf': '12345678909'})), 
      None,
-     {'error': 'A nota deve ser um valor entre 0 e 10!'}),
+     {'error': 'Nota inválida! Deve ser um número entre 0 e 10.'}),
 
     ("12345678909", "pedido999", 8.5, 
      MagicMock(exists=False), 

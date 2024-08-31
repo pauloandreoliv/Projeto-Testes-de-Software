@@ -16,6 +16,11 @@ warnings.filterwarnings('ignore')  # Ignorar warning do firebase
      None,
      {'error': 'CPF inválido!'}),
 
+    ("12345678909", "", "ATENDENTE", "GERENTE", 
+     [], 
+     None,
+     {'error': 'Senha inválida!'}),
+
     ("12345678909", "12345", "COZINHEIRO", "GERENTE", 
      [], 
      None,

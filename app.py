@@ -235,17 +235,14 @@ def avaliar_pedido(cpf, pedido_id, nota):
         pedido = pedido_data.to_dict()
         if pedido.get('cpf') != cpf:
             return {'error': 'CPF não corresponde ao CPF do pedido!'}
-    except Exception as e:
-        return {'error':  'Erro Inesperado'}
     
-    try:
-        nota = float(nota)
-        if nota < 0 or nota > 10:
-            return {'error': 'A nota deve ser um valor entre 0 e 10!'}
-    except ValueError:
-        return {'error': 'Nota inválida! Deve ser um número entre 0 e 10.'}
+        try:
+            nota = float(nota)
+            if nota < 0 or nota > 10:
+                raise ValueError('A nota deve ser um valor entre 0 e 10!')
+        except ValueError:
+            return {'error': 'Nota inválida! Deve ser um número entre 0 e 10.'}
 
-    try:
         doc_ref = db.collection('avaliacao').add({
             'pedido_id': pedido_id,
             'nota': nota
