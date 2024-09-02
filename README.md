@@ -72,13 +72,21 @@
 ## Formato do Plano de Testes
 
 **Exemplo**:
+
+
 4. Consultar Prato
+
 Teste 1: ID do prato válido
+
 Entrada 1: prato_id = "1234"
+
 Saída 1: Dados do prato em formato de dicionário
 
+
 Teste 2: ID do prato inválido ou não informado
+
 Entrada 2: prato_id = ""
+
 Saída 2: Mensagem de erro: {"error": "ID do prato deve ser informado!"}
 
 ## Ambiente de Teste – Software & Hardware
@@ -94,13 +102,21 @@ Saída 2: Mensagem de erro: {"error": "ID do prato deve ser informado!"}
 - **Versão do Python**: Python 3.11.4
 - **Dependências**:
 pytest (para execução de testes automáticos)
+
 unittest.mock (geração de mocks)
+
 pytest-cov (Métrica de cobertura)
+
 re
+
 firebase_admin
+
 smtplib
+
 datetime
+
 email.mime.multipart
+
 email.mime.text
 
 3. Configurações adicionais:
